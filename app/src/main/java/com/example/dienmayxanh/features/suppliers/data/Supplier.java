@@ -33,4 +33,9 @@ public class Supplier implements Serializable {
     public void setAddress(String address) { this.address = address; }
     public boolean isActive() { return active; }
     public void setActive(boolean active) { this.active = active; }
+
+    @Override
+    public String toString() {
+        return this.name; // Trả về tên nhà cung cấp để Spinner hiển thị
+    }
 }

@@ -109,33 +109,31 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
-                        android:text="Mã Danh mục"
+                        android:text="Chọn Danh mục *"
                         android:textColor="@android:color/black"
                         android:textStyle="bold" />
 
-                    <EditText
-                        android:id="@+id/edtCategoryId"
+                    <Spinner
+                        android:id="@+id/spinnerCategory"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:backgroundTint="#1976D2"
-                        android:hint="Nhập mã danh mục"
-                        android:inputType="text" />
+                        android:spinnerMode="dropdown" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
-                        android:text="Mã Nhà cung cấp"
+                        android:text="Chọn Nhà cung cấp *"
                         android:textColor="@android:color/black"
                         android:textStyle="bold" />
 
-                    <EditText
-                        android:id="@+id/edtSupplierId"
+                    <Spinner
+                        android:id="@+id/spinnerSupplier"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:backgroundTint="#1976D2"
-                        android:hint="Nhập mã nhà cung cấp"
-                        android:inputType="text" />
+                        android:spinnerMode="dropdown" />
 
                     <LinearLayout
                         android:layout_width="match_parent"

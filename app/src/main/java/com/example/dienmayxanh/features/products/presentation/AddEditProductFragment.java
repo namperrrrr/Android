@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -13,15 +15,28 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import com.example.dienmayxanh.R;
+import com.example.dienmayxanh.core.network.Resource;
 import com.example.dienmayxanh.features.products.data.Product;
+import com.example.dienmayxanh.features.categories.data.Category;
+import com.example.dienmayxanh.features.suppliers.data.Supplier;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddEditProductFragment extends Fragment {
     private ProductViewModel viewModel;
     private Product currentProduct;
 
-    private EditText edtName, edtPrice, edtStock, edtCategoryId, edtSupplierId;
+    private EditText edtName, edtPrice, edtStock;
+    private Spinner spinnerCategory, spinnerSupplier;
     private Switch swActive;
     private Button btnSave;
+
+    // Dữ liệu cho Spinners
+    private List<Category> categoryList = new ArrayList<>();
+    private List<Supplier> supplierList = new ArrayList<>();
+    private ArrayAdapter<Category> categoryAdapter;
+    private ArrayAdapter<Supplier> supplierAdapter;
 
     @Nullable
     @Override
@@ -31,31 +46,33 @@ public class AddEditProductFragment extends Fragment {
         edtName = view.findViewById(R.id.edtProductName);
         edtPrice = view.findViewById(R.id.edtProductPrice);
         edtStock = view.findViewById(R.id.edtProductStock);
-        edtCategoryId = view.findViewById(R.id.edtCategoryId);
-        edtSupplierId = view.findViewById(R.id.edtSupplierId);
+        spinnerCategory = view.findViewById(R.id.spinnerCategory);
+        spinnerSupplier = view.findViewById(R.id.spinnerSupplier);
         swActive = view.findViewById(R.id.swActive);
         btnSave = view.findViewById(R.id.btnSaveProduct);
         Button btnBack = view.findViewById(R.id.btnBack);
 
         viewModel = new ViewModelProvider(this).get(ProductViewModel.class);
 
-        // Bắt sự kiện click
+        setupSpinners();
+        observeDropdownData();
+
+        // Gọi lệnh lấy data cho Spinner
+        viewModel.fetchCategoriesForDropdown();
+        viewModel.fetchSuppliersForDropdown();
+
         if (btnBack != null) {
-            btnBack.setOnClickListener(v -> {
-                // Lệnh này đóng Fragment hiện tại và đưa bạn trở về màn hình trước đó (Danh sách)
-                getParentFragmentManager().popBackStack();
-            });
+            btnBack.setOnClickListener(v -> getParentFragmentManager().popBackStack());
         }
-        // Nhận dữ liệu nếu là chức năng Sửa
+
         if (getArguments() != null && getArguments().containsKey("PRODUCT_DATA")) {
             currentProduct = (Product) getArguments().getSerializable("PRODUCT_DATA");
             if (currentProduct != null) {
                 edtName.setText(currentProduct.getName());
                 edtPrice.setText(String.valueOf(currentProduct.getPrice()));
                 edtStock.setText(String.valueOf(currentProduct.getStock()));
-                edtCategoryId.setText(currentProduct.getCategoryId());
-                edtSupplierId.setText(currentProduct.getSupplierId());
                 swActive.setChecked(currentProduct.isActive());
+                // Lưu ý: Việc setSelection cho Spinner sẽ được thực hiện khi Data của Spinner tải xong (bên dưới)
             }
         }
 
@@ -69,7 +86,7 @@ public class AddEditProductFragment extends Fragment {
                     case SUCCESS:
                         Toast.makeText(getContext(), resource.data, Toast.LENGTH_SHORT).show();
                         viewModel.clearActionState();
-                        getParentFragmentManager().popBackStack(); // Quay lại màn hình trước
+                        getParentFragmentManager().popBackStack();
                         break;
                     case ERROR:
                         btnSave.setEnabled(true);
@@ -85,18 +102,79 @@ public class AddEditProductFragment extends Fragment {
         return view;
     }
 
+    private void setupSpinners() {
+        // Cài đặt adapter giao diện mặc định của Android cho Spinner
+        categoryAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, categoryList);
+        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerCategory.setAdapter(categoryAdapter);
+
+        supplierAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, supplierList);
+        supplierAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerSupplier.setAdapter(supplierAdapter);
+    }
+
+    private void observeDropdownData() {
+        // Lắng nghe dữ liệu Danh mục
+        viewModel.getCategoriesState().observe(getViewLifecycleOwner(), resource -> {
+            if (resource != null && resource.status == Resource.Status.SUCCESS && resource.data != null) {
+                categoryList.clear();
+                categoryList.addAll(resource.data);
+                categoryAdapter.notifyDataSetChanged();
+
+                // Nếu đang SỬA sản phẩm, tự động chọn đúng Danh mục cũ
+                if (currentProduct != null && currentProduct.getCategoryId() != null) {
+                    for (int i = 0; i < categoryList.size(); i++) {
+                        if (categoryList.get(i).getId().equals(currentProduct.getCategoryId())) {
+                            spinnerCategory.setSelection(i);
+                            break;
+                        }
+                    }
+                }
+            }
+        });
+
+        // Lắng nghe dữ liệu Nhà cung cấp
+        viewModel.getSuppliersState().observe(getViewLifecycleOwner(), resource -> {
+            if (resource != null && resource.status == Resource.Status.SUCCESS && resource.data != null) {
+                supplierList.clear();
+                supplierList.addAll(resource.data);
+                supplierAdapter.notifyDataSetChanged();
+
+                // Tự động chọn đúng Nhà cung cấp khi Đang sửa
+                if (currentProduct != null && currentProduct.getSupplierId() != null) {
+                    for (int i = 0; i < supplierList.size(); i++) {
+                        if (supplierList.get(i).getId().equals(currentProduct.getSupplierId())) {
+                            spinnerSupplier.setSelection(i);
+                            break;
+                        }
+                    }
+                }
+            }
+        });
+    }
+
     private void saveProduct() {
         String name = edtName.getText().toString().trim();
         String priceStr = edtPrice.getText().toString().trim();
         String stockStr = edtStock.getText().toString().trim();
-        String categoryId = edtCategoryId.getText().toString().trim();
-        String supplierId = edtSupplierId.getText().toString().trim();
         boolean isActive = swActive.isChecked();
+
+        // Ép kiểu ép trực tiếp Object từ Spinner về Class tương ứng để lấy ID
+        Category selectedCategory = (Category) spinnerCategory.getSelectedItem();
+        Supplier selectedSupplier = (Supplier) spinnerSupplier.getSelectedItem();
 
         if (name.isEmpty() || priceStr.isEmpty() || stockStr.isEmpty()) {
             Toast.makeText(getContext(), "Vui lòng nhập đủ tên, giá và số lượng", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        if (selectedCategory == null || selectedSupplier == null) {
+            Toast.makeText(getContext(), "Vui lòng tạo Danh mục và Nhà cung cấp trước!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String categoryId = selectedCategory.getId();
+        String supplierId = selectedSupplier.getId();
 
         long price = Long.parseLong(priceStr);
         int stock = Integer.parseInt(stockStr);

@@ -31,4 +31,9 @@ public class Category implements Serializable {
 
     public boolean isActive() { return active; }
     public void setActive(boolean active) { this.active = active; }
+
+    @Override
+    public String toString() {
+        return this.name; // Trả về tên danh mục để Spinner tự động hiển thị
+    }
 }
