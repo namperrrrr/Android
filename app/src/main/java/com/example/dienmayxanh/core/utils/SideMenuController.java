@@ -10,6 +10,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.example.dienmayxanh.R;
 import com.example.dienmayxanh.features.employees.presentation.EmployeeListFragment;
 import com.example.dienmayxanh.features.roles.presentation.RolesListFragment;
+// Đã import thêm Fragment Sản phẩm của bạn
+import com.example.dienmayxanh.features.products.presentation.ProductListFragment;
 
 public class SideMenuController {
 
@@ -52,5 +54,24 @@ public class SideMenuController {
                     .replace(R.id.mainFragmentContainer, new RolesListFragment())
                     .commit();
         });
+
+        // ---------------------------------------------------------
+        // 2. PHẦN THÊM MỚI CHO QUẢN LÝ SẢN PHẨM CỦA BẠN
+        // ---------------------------------------------------------
+
+        // Lưu ý: Tôi đang giả định ID nút bấm trong file layout_side_menu.xml là nav_products
+        // Nếu file XML của nhóm trưởng đặt tên ID khác, bạn chỉ cần sửa lại R.id.nav_products cho khớp nhé.
+        TextView navProducts = activity.findViewById(R.id.nav_products);
+
+        if (navProducts != null) {
+            navProducts.setOnClickListener(v -> {
+                tvToolbarTitle.setText("Quản Lý Sản Phẩm");
+                drawerLayout.closeDrawer(GravityCompat.START);
+
+                activity.getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.mainFragmentContainer, new ProductListFragment())
+                        .commit();
+            });
+        }
     }
 }
