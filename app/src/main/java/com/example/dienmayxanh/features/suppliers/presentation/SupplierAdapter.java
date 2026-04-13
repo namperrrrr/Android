@@ -51,6 +51,7 @@ public class SupplierAdapter extends RecyclerView.Adapter<SupplierAdapter.Suppli
         holder.tvPhone.setText("SĐT: " + sup.getPhone());
         holder.tvAddress.setText(sup.getAddress());
 
+        // Cập nhật trạng thái
         if (sup.isActive()) {
             holder.tvStatus.setText("Đang hợp tác");
             holder.tvStatus.setTextColor(0xFF388E3C);
@@ -59,8 +60,19 @@ public class SupplierAdapter extends RecyclerView.Adapter<SupplierAdapter.Suppli
             holder.tvStatus.setTextColor(0xFFD32F2F);
         }
 
-        holder.itemView.setOnClickListener(v -> { if (listener != null) listener.onItemClick(sup); });
-        holder.ivDelete.setOnClickListener(v -> { if (deleteListener != null) deleteListener.onDeleteClick(sup); });
+        // THAY ĐỔI: Gán sự kiện click vào nút Hình Cây Bút để Sửa
+        holder.ivEdit.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onItemClick(sup);
+            }
+        });
+
+        // Sự kiện click vào nút Hình Thùng Rác để Xóa
+        holder.ivDelete.setOnClickListener(v -> {
+            if (deleteListener != null) {
+                deleteListener.onDeleteClick(sup);
+            }
+        });
     }
 
     @Override
@@ -68,7 +80,7 @@ public class SupplierAdapter extends RecyclerView.Adapter<SupplierAdapter.Suppli
 
     class SupplierViewHolder extends RecyclerView.ViewHolder {
         TextView tvName, tvPhone, tvAddress, tvStatus;
-        ImageView ivDelete;
+        ImageView ivDelete, ivEdit; // Thêm ivEdit
 
         public SupplierViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -77,6 +89,7 @@ public class SupplierAdapter extends RecyclerView.Adapter<SupplierAdapter.Suppli
             tvAddress = itemView.findViewById(R.id.tvSupplierAddress);
             tvStatus = itemView.findViewById(R.id.tvSupplierStatus);
             ivDelete = itemView.findViewById(R.id.ivDeleteSupplier);
+            ivEdit = itemView.findViewById(R.id.ivEditSupplier); // Ánh xạ nút bút chì
         }
     }
 }

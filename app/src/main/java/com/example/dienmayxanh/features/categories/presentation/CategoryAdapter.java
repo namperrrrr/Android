@@ -62,22 +62,23 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         holder.tvName.setText(currentCategory.getName());
         holder.tvDesc.setText(currentCategory.getDescription());
 
+        // Xử lý màu sắc trạng thái
         if (currentCategory.isActive()) {
             holder.tvStatus.setText("Đang hoạt động");
-            holder.tvStatus.setTextColor(0xFF388E3C); // Màu xanh lá
+            holder.tvStatus.setTextColor(0xFF388E3C);
         } else {
             holder.tvStatus.setText("Ngừng hoạt động");
-            holder.tvStatus.setTextColor(0xFFD32F2F); // Màu đỏ
+            holder.tvStatus.setTextColor(0xFFD32F2F);
         }
 
-        // Click vào cả item để chuyển sang màn hình Sửa
-        holder.itemView.setOnClickListener(v -> {
+        // THAY ĐỔI: Gán sự kiện click vào nút Hình Cây Bút để Sửa
+        holder.ivEdit.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onItemClick(currentCategory);
             }
         });
 
-        // Click vào nút icon thùng rác để Xóa (1 chạm)
+        // Sự kiện click vào Hình Thùng Rác để Xóa
         holder.ivDelete.setOnClickListener(v -> {
             if (deleteListener != null) {
                 deleteListener.onDeleteClick(currentCategory);
@@ -92,7 +93,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     class CategoryViewHolder extends RecyclerView.ViewHolder {
         TextView tvName, tvDesc, tvStatus;
-        ImageView ivDelete;
+        ImageView ivDelete, ivEdit; // Thêm ivEdit
 
         public CategoryViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -100,6 +101,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             tvDesc = itemView.findViewById(R.id.tvCategoryDesc);
             tvStatus = itemView.findViewById(R.id.tvCategoryStatus);
             ivDelete = itemView.findViewById(R.id.ivDeleteCategory);
+            ivEdit = itemView.findViewById(R.id.ivEditCategory); // Ánh xạ nút bút chì
         }
     }
 }
