@@ -74,25 +74,13 @@ public class ProductListFragment extends Fragment {
                     .commit();
         });
 
-        // --- ĐOẠN CODE LẮNG NGHE SỰ KIỆN XÓA ---
+        // --- BẮT SỰ KIỆN XÓA (Đồng bộ với nhóm trưởng: Xóa 1 chạm) ---
         adapter.setOnDeleteClickListener(product -> {
-            androidx.appcompat.app.AlertDialog dialog = new androidx.appcompat.app.AlertDialog.Builder(requireContext())
-                    .setTitle("Xác nhận xóa")
-                    .setMessage("Bạn có chắc chắn muốn xóa sản phẩm '" + product.getName() + "' không?")
-                    .setPositiveButton("Xóa", (d, which) -> {
+            // 1. Lưu lại sản phẩm đang bị xóa để tẹo nữa xóa khỏi giao diện
+            currentProductToDelete = product;
 
-                        // THÊM DÒNG NÀY: Lưu lại sản phẩm đang bị xóa
-                        currentProductToDelete = product;
-
-                        // Lệnh xóa của bạn (giữ nguyên)
-                        viewModel.deleteProduct(product.getId());
-                    })
-                    .setNegativeButton("Hủy", null)
-                    .create();
-
-            dialog.show();
-            dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE).setTextColor(android.graphics.Color.parseColor("#D32F2F"));
-            dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_NEGATIVE).setTextColor(android.graphics.Color.parseColor("#424242"));
+            // 2. Gọi lệnh xóa trực tiếp lên server luôn, bỏ qua bước hiển thị Dialog hỏi đáp
+            viewModel.deleteProduct(product.getId());
         });
 
         // --- ĐOẠN CODE LẮNG NGHE KẾT QUẢ XÓA ---
