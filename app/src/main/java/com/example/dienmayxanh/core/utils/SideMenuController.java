@@ -37,6 +37,19 @@ public class SideMenuController {
         TextView navStaff = activity.findViewById(R.id.nav_staff);
         TextView navRoles = activity.findViewById(R.id.nav_roles);
 
+        // THÊM ĐOẠN CODE NÀY VÀO ĐỂ XỬ LÝ SỰ KIỆN XỔ XUỐNG/THU LẠI
+        navGroupHr.setOnClickListener(v -> {
+            if (layoutHrItems.getVisibility() == View.GONE) {
+                // Nếu đang ẩn thì hiện ra
+                layoutHrItems.setVisibility(View.VISIBLE);
+                navGroupHr.setCompoundDrawablesWithIntrinsicBounds(0, 0, android.R.drawable.arrow_up_float, 0);
+            } else {
+                // Nếu đang hiện thì ẩn đi
+                layoutHrItems.setVisibility(View.GONE);
+                navGroupHr.setCompoundDrawablesWithIntrinsicBounds(0, 0, android.R.drawable.arrow_down_float, 0);
+            }
+        });
+
         navStaff.setOnClickListener(v -> {
             tvToolbarTitle.setText("Danh Sách Nhân Viên");
             drawerLayout.closeDrawer(GravityCompat.START);

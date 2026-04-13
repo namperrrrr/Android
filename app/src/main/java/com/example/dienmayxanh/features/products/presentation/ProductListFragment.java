@@ -54,7 +54,7 @@ public class ProductListFragment extends Fragment {
         // Xử lý chuyển sang màn hình Thêm
         fabAdd.setOnClickListener(v -> {
             getParentFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new AddEditProductFragment()) // Đảm bảo R.id.fragment_container khớp với tên ID trong MainActivity của nhóm trưởng
+                    .replace(R.id.mainFragmentContainer, new AddEditProductFragment())
                     .addToBackStack(null)
                     .commit();
         });
@@ -67,7 +67,7 @@ public class ProductListFragment extends Fragment {
             fragment.setArguments(bundle);
 
             getParentFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, fragment)
+                    .replace(R.id.mainFragmentContainer, fragment)
                     .addToBackStack(null)
                     .commit();
         });
