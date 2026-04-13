@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:padding="16dp" android:background="#FFFFFF">
+
+    <Button android:id="@+id/btnBack" android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="Quay lại" android:layout_marginBottom="16dp"/>
+
+    <EditText android:id="@+id/edtSupplierName" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:hint="Tên nhà cung cấp" android:inputType="textPersonName" android:layout_marginBottom="12dp"/>
+
+    <EditText android:id="@+id/edtSupplierPhone" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:hint="Số điện thoại" android:inputType="phone" android:layout_marginBottom="12dp"/>
+
+    <EditText android:id="@+id/edtSupplierAddress" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:hint="Địa chỉ" android:inputType="textPostalAddress" android:layout_marginBottom="12dp"/>
+
+    <Switch android:id="@+id/swActive" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="Trạng thái hợp tác" android:layout_marginBottom="24dp"/>
+
+    <Button android:id="@+id/btnSaveSupplier" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="Lưu Nhà Cung Cấp" android:backgroundTint="#1976D2"/>
+</LinearLayout>

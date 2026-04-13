@@ -13,6 +13,7 @@ import com.example.dienmayxanh.features.employees.presentation.EmployeeListFragm
 import com.example.dienmayxanh.features.roles.presentation.RolesListFragment;
 // Đã import thêm Fragment Sản phẩm của bạn
 import com.example.dienmayxanh.features.products.presentation.ProductListFragment;
+import com.example.dienmayxanh.features.suppliers.presentation.SupplierListFragment;
 
 public class SideMenuController {
 
@@ -121,7 +122,10 @@ public class SideMenuController {
             navSupplier.setOnClickListener(v -> {
                 tvToolbarTitle.setText("Nhà Cung Cấp");
                 drawerLayout.closeDrawer(GravityCompat.START);
-                // activity.getSupportFragmentManager().beginTransaction().replace(...).commit();
+
+                activity.getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.mainFragmentContainer, new SupplierListFragment())
+                        .commit();
             });
         }
     }
