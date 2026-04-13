@@ -56,20 +56,7 @@
                 android:textSize="14sp"
                 android:textStyle="bold"
                 app:drawableEndCompat="@android:drawable/arrow_down_float" />
-            <TextView
-                android:id="@+id/nav_products"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true"
-                android:paddingStart="32dp"
-                android:paddingTop="12dp"
-                android:paddingEnd="16dp"
-                android:paddingBottom="12dp"
-                android:text="Quản lý Sản phẩm"
-                android:textColor="@android:color/black"
-                android:textSize="15sp" />
+
 
             <LinearLayout
                 android:id="@+id/layout_hr_items"
@@ -109,6 +96,77 @@
                     android:textColor="@android:color/black"
                     android:textSize="15sp" />
 
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/nav_group_product"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingStart="16dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="16dp"
+                android:text="QUẢN LÝ SẢN PHẨM"
+                android:textColor="#1976D2"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:drawableEndCompat="@android:drawable/arrow_down_float" />
+
+            <LinearLayout
+                android:id="@+id/layout_product_items"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#F9F9F9"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/nav_product_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:paddingStart="32dp"
+                    android:paddingTop="12dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="12dp"
+                    android:text="Danh sách Sản phẩm"
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/nav_product_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:paddingStart="32dp"
+                    android:paddingTop="12dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="12dp"
+                    android:text="Danh mục Sản phẩm"
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/nav_supplier"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:paddingStart="32dp"
+                    android:paddingTop="12dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="12dp"
+                    android:text="Nhà cung cấp"
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp" />
             </LinearLayout>
 
 

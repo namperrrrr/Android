@@ -3,6 +3,7 @@ package com.example.dienmayxanh.features.products.presentation;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,13 +15,24 @@ import java.util.List;
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
     private List<Product> productList = new ArrayList<>();
     private OnItemClickListener listener;
+    private OnDeleteClickListener deleteListener; // Thêm listener cho nút Xóa
 
+    // Interface cho nút Sửa (Cây bút)
     public interface OnItemClickListener {
         void onItemClick(Product product);
     }
 
+    // Interface cho nút Xóa (Thùng rác)
+    public interface OnDeleteClickListener {
+        void onDeleteClick(Product product);
+    }
+
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
+    }
+
+    public void setOnDeleteClickListener(OnDeleteClickListener deleteListener) {
+        this.deleteListener = deleteListener;
     }
 
     public void setProducts(List<Product> products) {
@@ -42,8 +54,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.tvPrice.setText("Giá: " + product.getPrice() + " VNĐ");
         holder.tvStock.setText("Tồn kho: " + product.getStock());
 
-        holder.itemView.setOnClickListener(v -> {
+        // Bắt sự kiện ấn vào nút Sửa
+        holder.imgEdit.setOnClickListener(v -> {
             if (listener != null) listener.onItemClick(product);
+        });
+
+        // Bắt sự kiện ấn vào nút Xóa
+        holder.imgDelete.setOnClickListener(v -> {
+            if (deleteListener != null) deleteListener.onDeleteClick(product);
         });
     }
 
@@ -52,11 +70,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     static class ProductViewHolder extends RecyclerView.ViewHolder {
         TextView tvName, tvPrice, tvStock;
+        ImageView imgEdit, imgDelete;
+
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tvProductName);
             tvPrice = itemView.findViewById(R.id.tvProductPrice);
             tvStock = itemView.findViewById(R.id.tvProductStock);
+            imgEdit = itemView.findViewById(R.id.imgEdit);
+            imgDelete = itemView.findViewById(R.id.imgDelete);
         }
     }
 }

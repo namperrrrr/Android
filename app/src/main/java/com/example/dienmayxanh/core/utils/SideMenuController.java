@@ -69,21 +69,54 @@ public class SideMenuController {
         });
 
         // ---------------------------------------------------------
-        // 2. PHẦN THÊM MỚI CHO QUẢN LÝ SẢN PHẨM CỦA BẠN
+        // 2. PHẦN QUẢN LÝ SẢN PHẨM
         // ---------------------------------------------------------
 
-        // Lưu ý: Tôi đang giả định ID nút bấm trong file layout_side_menu.xml là nav_products
-        // Nếu file XML của nhóm trưởng đặt tên ID khác, bạn chỉ cần sửa lại R.id.nav_products cho khớp nhé.
-        TextView navProducts = activity.findViewById(R.id.nav_products);
+        TextView navGroupProduct = activity.findViewById(R.id.nav_group_product);
+        LinearLayout layoutProductItems = activity.findViewById(R.id.layout_product_items);
+        TextView navProductList = activity.findViewById(R.id.nav_product_list);
+        TextView navProductCategory = activity.findViewById(R.id.nav_product_category);
+        TextView navSupplier = activity.findViewById(R.id.nav_supplier);
 
-        if (navProducts != null) {
-            navProducts.setOnClickListener(v -> {
-                tvToolbarTitle.setText("Quản Lý Sản Phẩm");
+        // Xử lý sự kiện xổ xuống / thu lại
+        if (navGroupProduct != null) {
+            navGroupProduct.setOnClickListener(v -> {
+                if (layoutProductItems.getVisibility() == View.GONE) {
+                    layoutProductItems.setVisibility(View.VISIBLE);
+                    navGroupProduct.setCompoundDrawablesWithIntrinsicBounds(0, 0, android.R.drawable.arrow_up_float, 0);
+                } else {
+                    layoutProductItems.setVisibility(View.GONE);
+                    navGroupProduct.setCompoundDrawablesWithIntrinsicBounds(0, 0, android.R.drawable.arrow_down_float, 0);
+                }
+            });
+        }
+
+        // Chuyển hướng màn hình Danh sách sản phẩm (chức năng bạn đã làm)
+        if (navProductList != null) {
+            navProductList.setOnClickListener(v -> {
+                tvToolbarTitle.setText("Danh Sách Sản Phẩm");
                 drawerLayout.closeDrawer(GravityCompat.START);
 
                 activity.getSupportFragmentManager().beginTransaction()
                         .replace(R.id.mainFragmentContainer, new ProductListFragment())
                         .commit();
+            });
+        }
+
+        // (Tùy chọn) Gắn sự kiện cho Danh mục và Nhà cung cấp sau này khi bạn làm xong
+        if (navProductCategory != null) {
+            navProductCategory.setOnClickListener(v -> {
+                tvToolbarTitle.setText("Danh Mục Sản Phẩm");
+                drawerLayout.closeDrawer(GravityCompat.START);
+                // activity.getSupportFragmentManager().beginTransaction().replace(...).commit();
+            });
+        }
+
+        if (navSupplier != null) {
+            navSupplier.setOnClickListener(v -> {
+                tvToolbarTitle.setText("Nhà Cung Cấp");
+                drawerLayout.closeDrawer(GravityCompat.START);
+                // activity.getSupportFragmentManager().beginTransaction().replace(...).commit();
             });
         }
     }

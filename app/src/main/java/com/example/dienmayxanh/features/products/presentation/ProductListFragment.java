@@ -59,7 +59,7 @@ public class ProductListFragment extends Fragment {
                     .commit();
         });
 
-        // Xử lý chuyển sang màn hình Sửa
+        // --- ĐOẠN CODE CŨ CỦA BẠN (Sửa sản phẩm) ---
         adapter.setOnItemClickListener(product -> {
             AddEditProductFragment fragment = new AddEditProductFragment();
             Bundle bundle = new Bundle();
@@ -70,6 +70,39 @@ public class ProductListFragment extends Fragment {
                     .replace(R.id.mainFragmentContainer, fragment)
                     .addToBackStack(null)
                     .commit();
+        });
+
+        // --- ĐOẠN CODE MỚI THÊM VÀO DƯỚI ĐÂY (Xóa sản phẩm) ---
+        adapter.setOnDeleteClickListener(product -> {
+            // Hiển thị hộp thoại xác nhận xóa
+            new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                    .setTitle("Xác nhận xóa")
+                    .setMessage("Bạn có chắc chắn muốn xóa sản phẩm '" + product.getName() + "' không?")
+                    .setPositiveButton("Xóa", (dialog, which) -> {
+                        // Gọi hàm xóa trong ViewModel (đảm bảo ID của sản phẩm tồn tại)
+                        viewModel.deleteProduct(product.getId());
+                    })
+                    .setNegativeButton("Hủy", null) // Bấm hủy thì đóng dialog
+                    .show();
+        });
+
+        // --- ĐOẠN CODE LẮNG NGHE KẾT QUẢ XÓA ---
+        // Thêm LiveData quan sát trạng thái xóa từ ViewModel (nếu bạn có cấu hình phần này)
+        viewModel.getDeleteProductState().observe(getViewLifecycleOwner(), resource -> {
+            switch (resource.status) {
+                case LOADING:
+                    progressBar.setVisibility(View.VISIBLE);
+                    break;
+                case SUCCESS:
+                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(getContext(), "Đã xóa sản phẩm thành công!", Toast.LENGTH_SHORT).show();
+                    viewModel.fetchProducts(); // Tải lại danh sách sau khi xóa
+                    break;
+                case ERROR:
+                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(getContext(), "Lỗi khi xóa: " + resource.message, Toast.LENGTH_SHORT).show();
+                    break;
+            }
         });
 
         viewModel.fetchProducts();

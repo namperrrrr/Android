@@ -12,8 +12,12 @@ import java.util.List;
 public class ProductViewModel extends ViewModel {
     private ProductUseCases useCases = new ProductUseCases();
 
+    private final MutableLiveData<Resource<Void>> deleteProductState = new MutableLiveData<>();
     private MutableLiveData<Resource<List<Product>>> productListState = new MutableLiveData<>();
     public LiveData<Resource<List<Product>>> getProductListState() { return productListState; }
+    public LiveData<Resource<Void>> getDeleteProductState() {
+        return deleteProductState;
+    }
 
     private MutableLiveData<Resource<String>> actionState = new MutableLiveData<>();
     public LiveData<Resource<String>> getActionState() { return actionState; }
