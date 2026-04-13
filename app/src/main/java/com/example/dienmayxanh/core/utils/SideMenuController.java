@@ -8,6 +8,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.dienmayxanh.R;
+import com.example.dienmayxanh.features.categories.presentation.CategoryListFragment;
 import com.example.dienmayxanh.features.employees.presentation.EmployeeListFragment;
 import com.example.dienmayxanh.features.roles.presentation.RolesListFragment;
 // Đã import thêm Fragment Sản phẩm của bạn
@@ -108,7 +109,11 @@ public class SideMenuController {
             navProductCategory.setOnClickListener(v -> {
                 tvToolbarTitle.setText("Danh Mục Sản Phẩm");
                 drawerLayout.closeDrawer(GravityCompat.START);
-                // activity.getSupportFragmentManager().beginTransaction().replace(...).commit();
+
+                // Mở comment và gọi CategoryListFragment
+                activity.getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.mainFragmentContainer, new CategoryListFragment())
+                        .commit();
             });
         }
 

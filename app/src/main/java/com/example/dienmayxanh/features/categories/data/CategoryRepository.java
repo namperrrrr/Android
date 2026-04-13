@@ -28,27 +28,31 @@ public class CategoryRepository {
                     }
                     callback.onResult(Resource.success(list));
                 })
-                .addOnFailureListener(e -> callback.onResult(Resource.error(e.getMessage(), null)));
+                // FIX: Chỉ truyền 1 tham số e.getMessage() theo đúng chuẩn Resource.java của bạn
+                .addOnFailureListener(e -> callback.onResult(Resource.error(e.getMessage())));
     }
 
     public void addCategory(Category category, CategoryCallback<String> callback) {
         db.collection(COLLECTION_NAME)
                 .add(category)
                 .addOnSuccessListener(documentReference -> callback.onResult(Resource.success("Thêm danh mục thành công")))
-                .addOnFailureListener(e -> callback.onResult(Resource.error(e.getMessage(), null)));
+                // FIX LỖI 2 THAM SỐ
+                .addOnFailureListener(e -> callback.onResult(Resource.error(e.getMessage())));
     }
 
     public void updateCategory(Category category, CategoryCallback<String> callback) {
         db.collection(COLLECTION_NAME).document(category.getId())
                 .set(category)
                 .addOnSuccessListener(aVoid -> callback.onResult(Resource.success("Cập nhật danh mục thành công")))
-                .addOnFailureListener(e -> callback.onResult(Resource.error(e.getMessage(), null)));
+                // FIX LỖI 2 THAM SỐ
+                .addOnFailureListener(e -> callback.onResult(Resource.error(e.getMessage())));
     }
 
     public void deleteCategory(String categoryId, CategoryCallback<Void> callback) {
         db.collection(COLLECTION_NAME).document(categoryId)
                 .delete()
                 .addOnSuccessListener(aVoid -> callback.onResult(Resource.success(null)))
-                .addOnFailureListener(e -> callback.onResult(Resource.error(e.getMessage(), null)));
+                // FIX LỖI 2 THAM SỐ
+                .addOnFailureListener(e -> callback.onResult(Resource.error(e.getMessage())));
     }
 }

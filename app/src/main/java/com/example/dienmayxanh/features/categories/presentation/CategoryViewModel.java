@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.dienmayxanh.core.network.Resource;
 import com.example.dienmayxanh.features.categories.data.Category;
+// Lệnh import quan trọng vừa được bổ sung để sửa lỗi
+import com.example.dienmayxanh.features.categories.domain.CategoryUseCases;
 
 import java.util.List;
 
