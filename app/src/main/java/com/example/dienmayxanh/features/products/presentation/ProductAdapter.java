@@ -40,6 +40,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         notifyDataSetChanged();
     }
 
+    // Thêm hàm này để xóa item sản phẩm trực tiếp trên giao diện
+    public void removeProduct(Product product) {
+        int position = productList.indexOf(product); // Tìm vị trí của sản phẩm trong danh sách
+        if (position != -1) {
+            productList.remove(position); // Xóa khỏi danh sách tạm
+            notifyItemRemoved(position); // Báo cho giao diện chạy hiệu ứng biến mất
+        }
+    }
+
     @NonNull
     @Override
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

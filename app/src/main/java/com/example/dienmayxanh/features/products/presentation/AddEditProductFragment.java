@@ -35,9 +35,17 @@ public class AddEditProductFragment extends Fragment {
         edtSupplierId = view.findViewById(R.id.edtSupplierId);
         swActive = view.findViewById(R.id.swActive);
         btnSave = view.findViewById(R.id.btnSaveProduct);
+        Button btnBack = view.findViewById(R.id.btnBack);
 
         viewModel = new ViewModelProvider(this).get(ProductViewModel.class);
 
+        // Bắt sự kiện click
+        if (btnBack != null) {
+            btnBack.setOnClickListener(v -> {
+                // Lệnh này đóng Fragment hiện tại và đưa bạn trở về màn hình trước đó (Danh sách)
+                getParentFragmentManager().popBackStack();
+            });
+        }
         // Nhận dữ liệu nếu là chức năng Sửa
         if (getArguments() != null && getArguments().containsKey("PRODUCT_DATA")) {
             currentProduct = (Product) getArguments().getSerializable("PRODUCT_DATA");

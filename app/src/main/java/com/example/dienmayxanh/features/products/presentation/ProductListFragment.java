@@ -13,12 +13,14 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.dienmayxanh.R;
+import com.example.dienmayxanh.features.products.data.Product;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class ProductListFragment extends Fragment {
     private ProductViewModel viewModel;
     private ProductAdapter adapter;
     private ProgressBar progressBar;
+    private Product currentProductToDelete = null;
 
     @Nullable
     @Override
@@ -72,18 +74,25 @@ public class ProductListFragment extends Fragment {
                     .commit();
         });
 
-        // --- ĐOẠN CODE MỚI THÊM VÀO DƯỚI ĐÂY (Xóa sản phẩm) ---
+        // --- ĐOẠN CODE LẮNG NGHE SỰ KIỆN XÓA ---
         adapter.setOnDeleteClickListener(product -> {
-            // Hiển thị hộp thoại xác nhận xóa
-            new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+            androidx.appcompat.app.AlertDialog dialog = new androidx.appcompat.app.AlertDialog.Builder(requireContext())
                     .setTitle("Xác nhận xóa")
                     .setMessage("Bạn có chắc chắn muốn xóa sản phẩm '" + product.getName() + "' không?")
-                    .setPositiveButton("Xóa", (dialog, which) -> {
-                        // Gọi hàm xóa trong ViewModel (đảm bảo ID của sản phẩm tồn tại)
+                    .setPositiveButton("Xóa", (d, which) -> {
+
+                        // THÊM DÒNG NÀY: Lưu lại sản phẩm đang bị xóa
+                        currentProductToDelete = product;
+
+                        // Lệnh xóa của bạn (giữ nguyên)
                         viewModel.deleteProduct(product.getId());
                     })
-                    .setNegativeButton("Hủy", null) // Bấm hủy thì đóng dialog
-                    .show();
+                    .setNegativeButton("Hủy", null)
+                    .create();
+
+            dialog.show();
+            dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE).setTextColor(android.graphics.Color.parseColor("#D32F2F"));
+            dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_NEGATIVE).setTextColor(android.graphics.Color.parseColor("#424242"));
         });
 
         // --- ĐOẠN CODE LẮNG NGHE KẾT QUẢ XÓA ---
@@ -96,7 +105,11 @@ public class ProductListFragment extends Fragment {
                 case SUCCESS:
                     progressBar.setVisibility(View.GONE);
                     Toast.makeText(getContext(), "Đã xóa sản phẩm thành công!", Toast.LENGTH_SHORT).show();
-                    viewModel.fetchProducts(); // Tải lại danh sách sau khi xóa
+                    if (currentProductToDelete != null) {
+                        adapter.removeProduct(currentProductToDelete);
+                        currentProductToDelete = null; // Xóa xong thì reset lại biến
+                    }
+//                    viewModel.fetchProducts(); // Tải lại danh sách sau khi xóa
                     break;
                 case ERROR:
                     progressBar.setVisibility(View.GONE);
