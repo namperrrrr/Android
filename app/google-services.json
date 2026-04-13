@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "662663199063",
+    "firebase_url": "https://dienmayxanh-696be-default-rtdb.firebaseio.com",
+    "project_id": "dienmayxanh-696be",
+    "storage_bucket": "dienmayxanh-696be.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:662663199063:android:78a5e495535b6a15c86612",
+        "android_client_info": {
+          "package_name": "com.example.banchinhthi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVL7ORq39zC8kRAU6ZY2RCw003RJ5MVqs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:662663199063:android:4af840a1f13941c9c86612",
+        "android_client_info": {
+          "package_name": "com.example.dienmayxanh"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVL7ORq39zC8kRAU6ZY2RCw003RJ5MVqs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
