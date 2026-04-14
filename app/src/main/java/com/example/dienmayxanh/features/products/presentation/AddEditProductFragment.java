@@ -87,6 +87,7 @@ public class AddEditProductFragment extends Fragment {
                 Glide.with(this)
                         .load(currentProduct.getImageUrl())
                         .placeholder(android.R.drawable.ic_menu_gallery)
+                        .fitCenter()
                         .into(imgPreview);
             }
         }
@@ -99,6 +100,7 @@ public class AddEditProductFragment extends Fragment {
                     Glide.with(this)
                             .load(url)
                             .error(android.R.drawable.stat_notify_error)
+                            .fitCenter()
                             .into(imgPreview);
                 }
             }

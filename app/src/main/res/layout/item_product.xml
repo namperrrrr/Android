@@ -16,9 +16,11 @@
 
         <ImageView
             android:id="@+id/imgProduct"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:scaleType="centerCrop"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:background="#F5F5F5"
             android:src="@android:drawable/ic_menu_gallery"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"

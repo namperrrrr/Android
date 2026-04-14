@@ -38,18 +38,20 @@ public class ProductListFragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(ProductViewModel.class);
 
         viewModel.getProductListState().observe(getViewLifecycleOwner(), resource -> {
-            switch (resource.status) {
-                case LOADING:
-                    progressBar.setVisibility(View.VISIBLE);
-                    break;
-                case SUCCESS:
-                    progressBar.setVisibility(View.GONE);
-                    if (resource.data != null) adapter.setProducts(resource.data);
-                    break;
-                case ERROR:
-                    progressBar.setVisibility(View.GONE);
-                    Toast.makeText(getContext(), resource.message, Toast.LENGTH_SHORT).show();
-                    break;
+            if (resource != null) {
+                switch (resource.status) {
+                    case LOADING:
+                        progressBar.setVisibility(View.VISIBLE);
+                        break;
+                    case SUCCESS:
+                        progressBar.setVisibility(View.GONE);
+                        if (resource.data != null) adapter.setProducts(resource.data);
+                        break;
+                    case ERROR:
+                        progressBar.setVisibility(View.GONE);
+                        Toast.makeText(getContext(), resource.message, Toast.LENGTH_SHORT).show();
+                        break;
+                }
             }
         });
 
@@ -61,7 +63,7 @@ public class ProductListFragment extends Fragment {
                     .commit();
         });
 
-        // --- ĐOẠN CODE CŨ CỦA BẠN (Sửa sản phẩm) ---
+        // Sửa sản phẩm
         adapter.setOnItemClickListener(product -> {
             AddEditProductFragment fragment = new AddEditProductFragment();
             Bundle bundle = new Bundle();
@@ -74,35 +76,35 @@ public class ProductListFragment extends Fragment {
                     .commit();
         });
 
-        // --- BẮT SỰ KIỆN XÓA (Đồng bộ với nhóm trưởng: Xóa 1 chạm) ---
+        // Xóa sản phẩm (Đồng bộ: Xóa 1 chạm)
         adapter.setOnDeleteClickListener(product -> {
-            // 1. Lưu lại sản phẩm đang bị xóa để tẹo nữa xóa khỏi giao diện
             currentProductToDelete = product;
-
-            // 2. Gọi lệnh xóa trực tiếp lên server luôn, bỏ qua bước hiển thị Dialog hỏi đáp
             viewModel.deleteProduct(product.getId());
         });
 
-        // --- ĐOẠN CODE LẮNG NGHE KẾT QUẢ XÓA ---
-        // Thêm LiveData quan sát trạng thái xóa từ ViewModel (nếu bạn có cấu hình phần này)
-        viewModel.getDeleteProductState().observe(getViewLifecycleOwner(), resource -> {
-            switch (resource.status) {
-                case LOADING:
-                    progressBar.setVisibility(View.VISIBLE);
-                    break;
-                case SUCCESS:
-                    progressBar.setVisibility(View.GONE);
-                    Toast.makeText(getContext(), "Đã xóa sản phẩm thành công!", Toast.LENGTH_SHORT).show();
-                    if (currentProductToDelete != null) {
-                        adapter.removeProduct(currentProductToDelete);
-                        currentProductToDelete = null; // Xóa xong thì reset lại biến
-                    }
-//                    viewModel.fetchProducts(); // Tải lại danh sách sau khi xóa
-                    break;
-                case ERROR:
-                    progressBar.setVisibility(View.GONE);
-                    Toast.makeText(getContext(), "Lỗi khi xóa: " + resource.message, Toast.LENGTH_SHORT).show();
-                    break;
+        // Lắng nghe kết quả từ actionState (vì deleteProduct trong ViewModel đang bắn kết quả về actionState)
+        viewModel.getActionState().observe(getViewLifecycleOwner(), resource -> {
+            if (resource != null) {
+                switch (resource.status) {
+                    case LOADING:
+                        progressBar.setVisibility(View.VISIBLE);
+                        break;
+                    case SUCCESS:
+                        progressBar.setVisibility(View.GONE);
+                        // Chỉ xử lý khi đây là kết quả của lệnh xóa (tránh nhầm với add/edit nếu dùng chung)
+                        if (currentProductToDelete != null) {
+                            Toast.makeText(getContext(), "Đã xóa sản phẩm thành công!", Toast.LENGTH_SHORT).show();
+                            adapter.removeProduct(currentProductToDelete);
+                            currentProductToDelete = null;
+                            viewModel.clearActionState();
+                        }
+                        break;
+                    case ERROR:
+                        progressBar.setVisibility(View.GONE);
+                        Toast.makeText(getContext(), "Lỗi khi xóa: " + resource.message, Toast.LENGTH_SHORT).show();
+                        viewModel.clearActionState();
+                        break;
+                }
             }
         });
 

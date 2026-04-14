@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.dienmayxanh.R;
 import com.example.dienmayxanh.features.products.data.Product;
 
@@ -66,6 +67,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.tvPrice.setText("Giá: " + product.getPrice() + " VNĐ");
         holder.tvStock.setText("Tồn kho: " + product.getStock());
 
+        // Hiển thị ảnh sản phẩm
+        Glide.with(holder.itemView.getContext())
+                .load(product.getImageUrl())
+                .placeholder(android.R.drawable.ic_menu_gallery)
+                .error(android.R.drawable.stat_notify_error)
+                .fitCenter()
+                .into(holder.imgProduct);
+
         // Bắt sự kiện ấn vào nút Sửa
         holder.imgEdit.setOnClickListener(v -> {
             if (listener != null) listener.onItemClick(product);
@@ -82,7 +91,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     static class ProductViewHolder extends RecyclerView.ViewHolder {
         TextView tvName, tvPrice, tvStock;
-        ImageView imgEdit, imgDelete;
+        ImageView imgEdit, imgDelete, imgProduct;
 
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -91,6 +100,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             tvStock = itemView.findViewById(R.id.tvProductStock);
             imgEdit = itemView.findViewById(R.id.imgEdit);
             imgDelete = itemView.findViewById(R.id.imgDelete);
+            imgProduct = itemView.findViewById(R.id.imgProduct);
         }
     }
 }
