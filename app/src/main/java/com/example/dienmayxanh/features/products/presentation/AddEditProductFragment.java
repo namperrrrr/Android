@@ -1,6 +1,5 @@
 package com.example.dienmayxanh.features.products.presentation;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,23 +7,19 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.bumptech.glide.Glide;
 import com.example.dienmayxanh.R;
 import com.example.dienmayxanh.core.network.Resource;
-import com.example.dienmayxanh.features.products.data.Product;
 import com.example.dienmayxanh.features.categories.data.Category;
+import com.example.dienmayxanh.features.products.data.Product;
 import com.example.dienmayxanh.features.suppliers.data.Supplier;
 
 import java.util.ArrayList;
@@ -34,9 +29,6 @@ public class AddEditProductFragment extends Fragment {
     private ProductViewModel viewModel;
     private Product currentProduct;
 
-    private ImageView ivProductImage;
-    private Button btnSelectImage;
-    private Uri selectedImageUri = null;
     private EditText edtName, edtPrice, edtStock;
     private Spinner spinnerCategory, spinnerSupplier;
     private Switch swActive;
@@ -48,16 +40,6 @@ public class AddEditProductFragment extends Fragment {
     private ArrayAdapter<Category> categoryAdapter;
     private ArrayAdapter<Supplier> supplierAdapter;
 
-    // Trình xử lý kết quả khi người dùng chọn ảnh xong
-    private final ActivityResultLauncher<String> pickImageLauncher = registerForActivityResult(
-            new ActivityResultContracts.GetContent(),
-            uri -> {
-                if (uri != null) {
-                    selectedImageUri = uri; // Lưu lại Uri để lát nữa upload
-                    ivProductImage.setImageURI(uri); // Hiển thị ảnh lên giao diện
-                }
-            }
-    );
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -70,11 +52,7 @@ public class AddEditProductFragment extends Fragment {
         spinnerSupplier = view.findViewById(R.id.spinnerSupplier);
         swActive = view.findViewById(R.id.swActive);
         btnSave = view.findViewById(R.id.btnSaveProduct);
-
         Button btnBack = view.findViewById(R.id.btnBack);
-
-        ivProductImage = view.findViewById(R.id.ivProductImage);
-        btnSelectImage = view.findViewById(R.id.btnSelectImage);
 
         viewModel = new ViewModelProvider(this).get(ProductViewModel.class);
 
@@ -85,9 +63,6 @@ public class AddEditProductFragment extends Fragment {
         viewModel.fetchCategoriesForDropdown();
         viewModel.fetchSuppliersForDropdown();
 
-        btnSelectImage.setOnClickListener(v -> {
-            pickImageLauncher.launch("image/*");
-        });
         if (btnBack != null) {
             btnBack.setOnClickListener(v -> getParentFragmentManager().popBackStack());
         }
@@ -99,10 +74,7 @@ public class AddEditProductFragment extends Fragment {
                 edtPrice.setText(String.valueOf(currentProduct.getPrice()));
                 edtStock.setText(String.valueOf(currentProduct.getStock()));
                 swActive.setChecked(currentProduct.isActive());
-
-                if (currentProduct.getImageUrl() != null && !currentProduct.getImageUrl().isEmpty()) {
-                    Glide.with(this).load(currentProduct.getImageUrl()).into(ivProductImage);
-                }
+                // Lưu ý: Việc setSelection cho Spinner sẽ được thực hiện khi Data của Spinner tải xong (bên dưới)
             }
         }
 
