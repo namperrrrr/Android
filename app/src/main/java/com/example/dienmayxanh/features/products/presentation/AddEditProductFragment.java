@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
@@ -29,11 +30,11 @@ public class AddEditProductFragment extends Fragment {
     private ProductViewModel viewModel;
     private Product currentProduct;
 
-    private EditText edtName, edtPrice, edtStock;
+    private EditText edtName, edtPrice, edtStock, edtImage;
     private Spinner spinnerCategory, spinnerSupplier;
     private Switch swActive;
     private Button btnSave;
-
+    private ImageView imgPreview;
     // Dữ liệu cho Spinners
     private List<Category> categoryList = new ArrayList<>();
     private List<Supplier> supplierList = new ArrayList<>();
@@ -52,7 +53,11 @@ public class AddEditProductFragment extends Fragment {
         spinnerSupplier = view.findViewById(R.id.spinnerSupplier);
         swActive = view.findViewById(R.id.swActive);
         btnSave = view.findViewById(R.id.btnSaveProduct);
+
         Button btnBack = view.findViewById(R.id.btnBack);
+
+        edtImage = view.findViewById(R.id.edtProductImage);
+        imgPreview = view.findViewById(R.id.imgProductPreview);
 
         viewModel = new ViewModelProvider(this).get(ProductViewModel.class);
 
@@ -74,9 +79,26 @@ public class AddEditProductFragment extends Fragment {
                 edtPrice.setText(String.valueOf(currentProduct.getPrice()));
                 edtStock.setText(String.valueOf(currentProduct.getStock()));
                 swActive.setChecked(currentProduct.isActive());
-                // Lưu ý: Việc setSelection cho Spinner sẽ được thực hiện khi Data của Spinner tải xong (bên dưới)
+
+                // Hiển thị link và ảnh cũ nếu có
+                edtImage.setText(currentProduct.getImage());
+                com.github.bumptech.glide.Glide.with(this)
+                        .load(currentProduct.getImage())
+                        .placeholder(android.R.drawable.ic_menu_gallery)
+                        .into(imgPreview);
             }
         }
+        edtImage.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) { // Khi người dùng thoát khỏi ô nhập liệu
+                String url = edtImage.getText().toString().trim();
+                if (!url.isEmpty()) {
+                    com.github.bumptech.glide.Glide.with(this)
+                            .load(url)
+                            .error(android.R.drawable.stat_notify_error)
+                            .into(imgPreview);
+                }
+            }
+        });
 
         viewModel.getActionState().observe(getViewLifecycleOwner(), resource -> {
             if (resource != null) {
@@ -159,6 +181,7 @@ public class AddEditProductFragment extends Fragment {
         String name = edtName.getText().toString().trim();
         String priceStr = edtPrice.getText().toString().trim();
         String stockStr = edtStock.getText().toString().trim();
+        String imageUrl = edtImage.getText().toString().trim();
         boolean isActive = swActive.isChecked();
 
         // Ép kiểu ép trực tiếp Object từ Spinner về Class tương ứng để lấy ID
@@ -182,16 +205,19 @@ public class AddEditProductFragment extends Fragment {
         int stock = Integer.parseInt(stockStr);
 
         if (currentProduct == null) {
-            Product newProduct = new Product(name, price, stock, "", categoryId, supplierId, isActive);
+            // Lưu ý: Đối số thứ 4 là imageUrl (thay cho chuỗi rỗng trước đây)
+            Product newProduct = new Product(name, price, stock, imageUrl, categoryId, supplierId, isActive);
             viewModel.addProduct(newProduct);
         } else {
             currentProduct.setName(name);
             currentProduct.setPrice(price);
             currentProduct.setStock(stock);
+            currentProduct.setImage(imageUrl); // Cập nhật URL ảnh mới
             currentProduct.setCategoryId(categoryId);
             currentProduct.setSupplierId(supplierId);
             currentProduct.setActive(isActive);
             viewModel.updateProduct(currentProduct);
         }
+    }
     }
 }
