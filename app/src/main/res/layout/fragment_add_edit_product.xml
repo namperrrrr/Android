@@ -12,7 +12,7 @@
         android:fillViewport="true"
         app:layout_constraintBottom_toTopOf="@+id/bottomButtonBar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_of="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
@@ -176,7 +176,7 @@
                             android:textColor="@android:color/black"
                             android:textStyle="bold" />
 
-                        <Switch
+                        <androidx.appcompat.widget.SwitchCompat
                             android:id="@+id/swActive"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
