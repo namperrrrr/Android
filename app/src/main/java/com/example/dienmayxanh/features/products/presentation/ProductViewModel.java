@@ -13,21 +13,25 @@ import com.example.dienmayxanh.features.categories.data.Category;
 import com.example.dienmayxanh.features.categories.domain.CategoryUseCases;
 import com.example.dienmayxanh.features.suppliers.data.Supplier;
 import com.example.dienmayxanh.features.suppliers.domain.SupplierUseCases;
+
 public class ProductViewModel extends ViewModel {
     private ProductUseCases useCases = new ProductUseCases();
     private CategoryUseCases categoryUseCases = new CategoryUseCases();
     private SupplierUseCases supplierUseCases = new SupplierUseCases();
+
     private final MutableLiveData<Resource<Void>> deleteProductState = new MutableLiveData<>();
     private MutableLiveData<Resource<List<Product>>> productListState = new MutableLiveData<>();
     public LiveData<Resource<List<Product>>> getProductListState() { return productListState; }
     public LiveData<Resource<Void>> getDeleteProductState() {
         return deleteProductState;
     }
+
     private MutableLiveData<Resource<List<Category>>> categoriesState = new MutableLiveData<>();
     public LiveData<Resource<List<Category>>> getCategoriesState() { return categoriesState; }
 
     private MutableLiveData<Resource<List<Supplier>>> suppliersState = new MutableLiveData<>();
     public LiveData<Resource<List<Supplier>>> getSuppliersState() { return suppliersState; }
+
     private MutableLiveData<Resource<String>> actionState = new MutableLiveData<>();
     public LiveData<Resource<String>> getActionState() { return actionState; }
 
@@ -41,24 +45,29 @@ public class ProductViewModel extends ViewModel {
         suppliersState.setValue(Resource.<List<Supplier>>loading());
         supplierUseCases.getSuppliers(resource -> suppliersState.setValue(resource));
     }
+
     public void fetchProducts() {
         productListState.setValue(Resource.loading());
-        useCases.getProducts(resource -> productListState.setValue(resource));
+        // Đã sửa: thêm .execute
+        useCases.getProducts.execute(resource -> productListState.setValue(resource));
     }
 
     public void addProduct(Product product) {
         actionState.setValue(Resource.loading());
-        useCases.addProduct(product, resource -> actionState.setValue(resource));
+        // Đã sửa: thêm .execute
+        useCases.addProduct.execute(product, resource -> actionState.setValue(resource));
     }
 
     public void updateProduct(Product product) {
         actionState.setValue(Resource.loading());
-        useCases.updateProduct(product, resource -> actionState.setValue(resource));
+        // Đã sửa: thêm .execute
+        useCases.updateProduct.execute(product, resource -> actionState.setValue(resource));
     }
 
     public void deleteProduct(String productId) {
         actionState.setValue(Resource.loading());
-        useCases.deleteProduct(productId, resource -> actionState.setValue(resource));
+        // Đã sửa: thêm .execute
+        useCases.deleteProduct.execute(productId, resource -> actionState.setValue(resource));
     }
 
     public void clearActionState() {

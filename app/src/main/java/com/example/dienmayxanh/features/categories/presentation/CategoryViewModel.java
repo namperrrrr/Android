@@ -25,22 +25,26 @@ public class CategoryViewModel extends ViewModel {
 
     public void fetchCategories() {
         categoryListState.setValue(Resource.loading());
-        useCases.getCategories(resource -> categoryListState.setValue(resource));
+        // Đã thêm .execute
+        useCases.getCategories.execute(resource -> categoryListState.setValue(resource));
     }
 
     public void addCategory(Category category) {
         actionState.setValue(Resource.loading());
-        useCases.addCategory(category, resource -> actionState.setValue(resource));
+        // Đã thêm .execute
+        useCases.addCategory.execute(category, resource -> actionState.setValue(resource));
     }
 
     public void updateCategory(Category category) {
         actionState.setValue(Resource.loading());
-        useCases.updateCategory(category, resource -> actionState.setValue(resource));
+        // Đã thêm .execute
+        useCases.updateCategory.execute(category, resource -> actionState.setValue(resource));
     }
 
     public void deleteCategory(String categoryId) {
         deleteCategoryState.setValue(Resource.loading());
-        useCases.deleteCategory(categoryId, resource -> deleteCategoryState.setValue(resource));
+        // Đã thêm .execute
+        useCases.deleteCategory.execute(categoryId, resource -> deleteCategoryState.setValue(resource));
     }
 
     public void clearActionState() {
