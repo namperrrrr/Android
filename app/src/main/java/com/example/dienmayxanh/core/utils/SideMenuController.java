@@ -8,12 +8,12 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.dienmayxanh.R;
-import com.example.dienmayxanh.features.categories.presentation.CategoryListFragment;
+import com.example.dienmayxanh.features.categories.presentation.Category_List_Fragment;
 import com.example.dienmayxanh.features.employees.presentation.EmployeeListFragment;
 import com.example.dienmayxanh.features.roles.presentation.RolesListFragment;
 // Đã import thêm Fragment Sản phẩm của bạn
-import com.example.dienmayxanh.features.products.presentation.ProductListFragment;
-import com.example.dienmayxanh.features.suppliers.presentation.SupplierListFragment;
+import com.example.dienmayxanh.features.products.presentation.Product_List_Fragment;
+import com.example.dienmayxanh.features.suppliers.presentation.Supplier_List_Fragment;
 
 public class SideMenuController {
 
@@ -70,8 +70,59 @@ public class SideMenuController {
                     .commit();
         });
 
+        // quan li ban hang
+        TextView navGroupSales = activity.findViewById(R.id.nav_group_hr1);
+        LinearLayout layoutSalesItems = activity.findViewById(R.id.layout_hr_items1);
+        TextView navTransaction = activity.findViewById(R.id.nav_staff_1); // Quản lý giao dịch
+        TextView navCustomer = activity.findViewById(R.id.nav_roles_1);    // Quản lý khách hàng
+        TextView navVoucher = activity.findViewById(R.id.nav_roles_2);     // Quản lý voucher
+
+        navGroupSales.setOnClickListener(v -> {
+            if (layoutSalesItems.getVisibility() == View.VISIBLE) {
+
+                layoutSalesItems.setVisibility(View.GONE);
+
+
+                navGroupSales.setCompoundDrawablesWithIntrinsicBounds(0, 0, android.R.drawable.arrow_down_float, 0);
+            } else {
+                layoutSalesItems.setVisibility(View.VISIBLE);
+                navGroupSales.setCompoundDrawablesWithIntrinsicBounds(0, 0, android.R.drawable.arrow_up_float, 0);
+            }
+        });
+
+        navTransaction.setOnClickListener(v -> {
+            tvToolbarTitle.setText("Quản lý giao dịch");
+            drawerLayout.closeDrawer(GravityCompat.START);
+
+            activity.getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.mainFragmentContainer, new com.example.dienmayxanh.features.orders.presentation.OrderListFragment())
+                    .commit();
+
+        });
+
+        navCustomer.setOnClickListener(v -> {
+            tvToolbarTitle.setText("Quản lý khách hàng");
+            drawerLayout.closeDrawer(GravityCompat.START);
+
+            activity.getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.mainFragmentContainer, new com.example.dienmayxanh.features.customers.presentation.CustomerListFragment())
+                    .commit();
+
+        });
+
+        navVoucher.setOnClickListener(v -> {
+            tvToolbarTitle.setText("Quản lý voucher");
+            drawerLayout.closeDrawer(GravityCompat.START);
+
+            activity.getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.mainFragmentContainer, new com.example.dienmayxanh.features.promotions.presentation.PromotionListFragment())
+                    .commit();
+
+
+        });
+
         // ---------------------------------------------------------
-        // 2. PHẦN QUẢN LÝ SẢN PHẨM
+        // PHẦN QUẢN LÝ SẢN PHẨM
         // ---------------------------------------------------------
 
         TextView navGroupProduct = activity.findViewById(R.id.nav_group_product);
@@ -100,7 +151,7 @@ public class SideMenuController {
                 drawerLayout.closeDrawer(GravityCompat.START);
 
                 activity.getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.mainFragmentContainer, new ProductListFragment())
+                        .replace(R.id.mainFragmentContainer, new Product_List_Fragment())
                         .commit();
             });
         }
@@ -108,12 +159,12 @@ public class SideMenuController {
         // (Tùy chọn) Gắn sự kiện cho Danh mục và Nhà cung cấp sau này khi bạn làm xong
         if (navProductCategory != null) {
             navProductCategory.setOnClickListener(v -> {
-                tvToolbarTitle.setText("Danh Mục Sản Phẩm");
+                tvToolbarTitle.setText("Danh Mục");
                 drawerLayout.closeDrawer(GravityCompat.START);
 
                 // Mở comment và gọi CategoryListFragment
                 activity.getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.mainFragmentContainer, new CategoryListFragment())
+                        .replace(R.id.mainFragmentContainer, new Category_List_Fragment())
                         .commit();
             });
         }
@@ -124,9 +175,12 @@ public class SideMenuController {
                 drawerLayout.closeDrawer(GravityCompat.START);
 
                 activity.getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.mainFragmentContainer, new SupplierListFragment())
+                        .replace(R.id.mainFragmentContainer, new Supplier_List_Fragment())
                         .commit();
             });
         }
     }
+
+
+
 }

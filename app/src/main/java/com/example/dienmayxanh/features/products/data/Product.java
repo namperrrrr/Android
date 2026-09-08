@@ -1,6 +1,7 @@
 package com.example.dienmayxanh.features.products.data;
 
 import com.google.firebase.firestore.Exclude;
+
 import java.io.Serializable;
 
 public class Product implements Serializable {

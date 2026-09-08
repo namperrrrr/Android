@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnSaveOrder"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="24dp">
+
+                <TextView
+                    android:id="@+id/tvOrderFormTitle"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Thêm mới Giao dịch"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/btnBack"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@android:drawable/ic_menu_close_clear_cancel"
+                    app:tint="#BDBDBD"/>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tên khách hàng"
+                android:textStyle="bold" />
+            <EditText
+                android:id="@+id/edtOrderCustomer"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="16dp"
+                android:background="@android:drawable/edit_text"
+                android:hint="Nhập tên khách..."
+                android:paddingHorizontal="12dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sản phẩm mua"
+                android:textStyle="bold" />
+            <EditText
+                android:id="@+id/edtOrderItems"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="16dp"
+                android:background="@android:drawable/edit_text"
+                android:hint="VD: Tủ lạnh Samsung..."
+                android:paddingHorizontal="12dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tổng tiền (VNĐ)"
+                android:textStyle="bold" />
+            <EditText
+                android:id="@+id/edtOrderTotal"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="16dp"
+                android:background="@android:drawable/edit_text"
+                android:inputType="number"
+                android:hint="VD: 15000000"
+                android:paddingHorizontal="12dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mã Khuyến mãi (Voucher)"
+                android:textStyle="bold" />
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:boxStrokeColor="#1976D2"
+                app:hintTextColor="#1976D2">
+
+                <AutoCompleteTextView
+                    android:id="@+id/edtOrderVoucher"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="Chọn Voucher (Nếu có)"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Trạng thái thanh toán"
+                android:textStyle="bold" />
+            <Spinner
+                android:id="@+id/spinnerOrderStatus"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@android:drawable/btn_dropdown" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btnSaveOrder"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_margin="16dp"
+        android:text="Lưu thông tin"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:backgroundTint="#FFC107"
+        app:cornerRadius="12dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

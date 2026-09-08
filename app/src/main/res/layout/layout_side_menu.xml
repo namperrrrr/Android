@@ -97,7 +97,78 @@
                     android:textSize="15sp" />
 
             </LinearLayout>
+<!--quan li ban hang-->
+            <TextView
+                android:id="@+id/nav_group_hr1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingStart="16dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="16dp"
+                android:text="QUẢN LÝ BÁN HÀNG"
+                android:textColor="#1976D2"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:drawableEndCompat="@android:drawable/arrow_down_float" />
 
+            <LinearLayout
+                android:id="@+id/layout_hr_items1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#F9F9F9"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/nav_staff_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:paddingStart="32dp"
+                    android:paddingTop="12dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="12dp"
+                    android:text="Quản lý giao dịch"
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/nav_roles_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:paddingStart="32dp"
+                    android:paddingTop="12dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="12dp"
+                    android:text="Quản lý khách hàng"
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/nav_roles_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:paddingStart="32dp"
+                    android:paddingTop="12dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="12dp"
+                    android:text="Quản lý voucher"
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
             <TextView
                 android:id="@+id/nav_group_product"
                 android:layout_width="match_parent"
@@ -149,7 +220,7 @@
                     android:paddingTop="12dp"
                     android:paddingEnd="16dp"
                     android:paddingBottom="12dp"
-                    android:text="Danh mục Sản phẩm"
+                    android:text="Danh mục"
                     android:textColor="@android:color/black"
                     android:textSize="15sp" />
 
